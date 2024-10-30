@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Note Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        p {
+            white-space: pre-wrap; 
+            word-wrap: break-word; 
+            overflow-wrap: break-word; 
+            max-width: 100%; 
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'notes:index' %}">Главная</a>
+    <h3>{{ note.title }}</h3>
+    <p>{{ note.description }}</p>
+
+    {% if note.image %}
+        <img src="{{ note.image.url }}" alt="Note Image">
+    {% else %}
+        <p>Изображение отсутствует.</p>
+    {% endif %}
+
+    <p><strong>Приоритет:</strong> {{ note.priority }}</p>
+</body>
+</html>

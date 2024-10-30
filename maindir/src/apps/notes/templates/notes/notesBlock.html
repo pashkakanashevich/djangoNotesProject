@@ -1,0 +1,17 @@
+<a href="{% url 'notes:note' note.id%}" color="black">
+    <div class="card">
+        <div class="note-with-img">
+            {% if note.image %}
+                <img src="{{ note.image.url }}" alt="Avatar" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
+            {% endif %}
+            <div>
+                <h3>{{ note.title }}</h3>
+                <p>{{ note.description }}</p>
+            </div>
+        </div>
+        <a href="{% url 'notes:delete_note' note.id %}">удалить заметку</a>
+        <a href="{% url 'notes:edit_note' note.id%}">изменить заметку</a>
+        <p>Приоритет: {{ note.priority }}</p>
+        <p>Date: {{ note.created_at }}</p>
+    </div>
+</a>

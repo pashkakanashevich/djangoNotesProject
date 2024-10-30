@@ -1,0 +1,127 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes Layout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+        .wrapper {
+            display: flex;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            align-self: center;
+            width: 50%;
+            max-width: 50%; 
+            overflow-wrap: break-word; 
+        }
+        .container a {
+            text-decoration: none;
+        }
+        .container a:link {
+            color: black;
+        }
+        .container a:visited {
+            color: black;
+        }
+        .container a:hover {
+            color: grey;
+        }
+        .card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            display: flex;
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            flex-direction: column;
+        }
+        .card:hover {
+            background-color: aqua;
+        }
+        .add-card {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .add-card:hover {
+            background-color: bisque;
+        }
+        .card h3 {
+            margin: 0 0 10px;
+            font-size: 1.2rem;
+        }
+        .card p {
+            margin: 10px;
+            color: gray;
+            word-wrap: break-word;
+            overflow-y: auto; 
+        }
+        .title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .sort-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        select {
+            padding: 8px;
+            font-size: 1rem;
+        }
+        .note-with-img {
+            display: flex;
+            align-items: center; 
+        }
+        .image {
+            margin-right: 10px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="title">Notes</div>
+
+    <div class="sort-container">
+        <form method="post" action="{% url 'notes:index' %}">
+            {% csrf_token %}
+            <label for="sort">Sort by:</label>
+            <select name="sort" id="sort" onchange="this.form.submit()">
+                <option value="created_at" {% if sort == 'created_at' %}selected{% endif %}>Date Created(new - old)</option>
+                <option value="-created_at" {% if sort == '-created_at' %}selected{% endif %}>Date Created(old - new)</option>
+                <option value="priority" {% if sort == 'priority' %}selected{% endif %}>Priority(low - high)</option>
+                <option value="-priority" {% if sort == '-priority' %}selected{% endif %}>Priority(high - low)</option>
+            </select>
+
+        </form>
+    </div>
+
+    <div class="sort-container">
+        <form method="get" action="{% url 'notes:index' %}" >
+            <label for="search">Search:</label>
+            <input type="text" name="search" id="search" placeholder="Search notes..." value="{{ request.GET.search }}" onchange="this.form.submit()">
+            <input type="submit" value="Search">
+        </form>
+    </div>
+
+    <div class="wrapper">
+        <div class="container">
+            <a href="{% url 'notes:add_note' %}" color="black">
+                <div class="card add-card">+</div>
+            </a>
+            {% for note in notes %}
+                {% include 'notes/notesBlock.html' %}
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
